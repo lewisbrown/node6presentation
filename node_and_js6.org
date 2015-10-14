@@ -1,0 +1,544 @@
+* What's New in Node and JavaScript
+
+** What's new in Node 4.0.0
+*** Modest performance gains
+*** Long Term Support versionsing
+*** Uses new version of V8
+*** Extended ES6 support
+    --v8-options
+       --harmony
+       --harmony_modules
+       --harmony_array_includes
+       --harmony_regexps
+       --harmony_proxies
+       --harmony_destructuring
+       --harmony_object
+       
+** Block-level Scope
+*** Let
+ 
+    - let variables are not hoisted!
+
+**** Before
+
+    var a = 2;
+
+    (function () {
+        var a = 3;
+        console.log(a);     // 3
+    })();
+
+    console.log(a);         // 2 
+    
+
+**** After
+
+    var a = 2;
+
+    {
+        let a = 3;
+        console.log(a);     // 3
+    }
+
+    console.log(a);         // 2 
+
+**** Other example
+
+    let a = "bob's your uncle";
+
+    for (let i = 1; i <= 1; i++) {
+        console.log(i);             // 1
+    }
+
+    console.log(a);                 // bob's your uncle
+
+*** Const
+
+    const a = [1,2,3];
+    a.push(4);
+    console.log(a);         // [1,2,3,4]
+
+    a = 42;                 // TypeError
+
+*** Block level functions
+
+    Not implemented in Node yet
+
+    {
+        foo();              // works
+
+        function foo() {}
+    }
+
+    foo();                  // ReferenceError
+
+** Classes
+
+Syntactic sugar over standard JS prototype-based inheritance
+
+*** Class declarations
+
+    class Polygon {
+        constructor(height, width) {
+            this.height = height;
+            this.width = width;
+        }
+    }       
+
+    Class declarations are not hoisted
+
+*** Class expressions
+    var Polygon = class {
+        constructor(height, width) {
+            this.height = height;
+            this.width = width;
+        }
+
+	set height(h) {
+	    this.height = h;
+	}
+
+	set width(w) {
+	    this.width = w;
+	}
+
+        get area() {
+            return this.calcArea();
+        }
+
+        calcArea() {
+            return this.height * this.width;
+        }
+
+        static distance(a, b) {
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            
+            return Math.sqrt(dx*dx + dy*dy);
+	}
+    };
+
+**** Unamed - name is local to class' body
+    var Polygon = class Polygon {
+        constructor(height, width) {
+            this.height = height;
+            this.width = width;
+        }
+    };
+
+*** Sub classing
+
+    class Animal {
+        constructor(name) {
+	    this.name = name;
+	}
+
+	speak() {
+	    console.log(this.name + ' makes a noise.');
+	}
+    }
+
+    class Dog extends Animal {
+        speak() {
+	    super.speak();
+	    console.log(this.name + ' barks.');
+	}
+    }
+
+
+** for ... of loops
+   - for...in :: loops over object properties
+   - for...of :: loops over data in iterables
+     - works on iterables: Arrays, Maps, Sets, Generators, etc.
+     - allows break, continue, return
+
+    for (let v of array) { console.log(v); }
+
+** Collections
+*** Map
+Objects and Maps are very similar, but:
+
+1. Maps do not have a prototype
+2. Map keys can be of any type, not just Strings
+3. But all keys must be of the same type, as with all values
+4. Maps have a 'length' parameter, unlike Objects
+5. Maps iterate in insertion order whereas Objects specify no order
+
+     m = new Map();
+     m.set("foo", 1);
+     m.set(2, "bar");
+     
+     var kO = {};
+     var kA = [];
+     
+     m.set(kO, 2);
+     m.set(kA, 3);
+     
+     m.get(kO);     -> 2
+     m.size;        -> 4
+     
+     n = new Map([['a', 1], ['b', 2], ['c', 3]]);
+
+*** Methods on Map
+
+set
+get
+keys
+values
+entries
+has
+size
+delete
+clear
+
+     for (var [k,v] of m) { console.log(k + ' = ' + v); }
+     
+     m.forEach(function(v,k) { console.log(k + ' = ' + v); }, m);
+
+*** Weak Map
+Like Map, but with keys that are weakly referenced.
+
+As they need a reference, keys must be objects
+No primitive keys allowed (string, number, bool, null, undefined, symbol).
+
+set
+get
+has
+delete
+
+*** Set
+
+     let s = new Set([1,3,5,1,3,5,1,3,5]);
+     -> Set { 1, 3, 5 }
+
+add 
+keys
+values
+entries
+has
+delete
+clear
+
+forEach
+
+*** Weak Set
+
+Objects only
+
+add
+has
+delete
+
+** Typed Arrays
+   - array-like objects and provide a mechanism for accessing raw binary data
+   - not a true Array
+   - can convert to true Array - Array.from
+*** Buffers and Views
+     - ArrayBuffer 
+        - generic, fixed-length container
+	- no access
+     - DataView    
+        - context: type, offset, number of elements
+	- provides getter/setters
+	- can open multiple views on same buffer: can you say 'C'
+     - Types
+       - 8, 16, 32 bin int and uint
+       - 32, 64 bit floats
+
+     var buffer = new ArrayBuffer(16);
+     var int32View = new Int32Array(buffer);
+     for (var i = 0; i< int32View.length; i++) {
+         int32View[i] = i*2;
+     }
+
+*** C structs
+    struct foo {
+        unsigned long id;
+	char name[16];
+	float amount;
+    }
+
+    var buffer = new ArrayBuffer(24);
+    // read data into array
+    var idView = new Uint32Array(buffer, 0, 1);
+    var nameView = new Uint8Array(buffer, 4, 16);
+    var amountView = new Float32Array(buffer, 20, 1);
+
+    nameView[0];
+    
+    
+
+
+** Generators
+   - functions which can be exited and later re-entered with static bindings
+   - returns an iterator for the function
+   - calling iterator's next() method re-enters the function up till yield
+   - yield returns a value for the present iteration
+
+    function* fibonacci() {
+        let [prev, curr] = [0, 1];
+        for (;;) {
+            [prev, curr] = [curr, prev + curr];
+            yield curr;
+        }
+    }
+
+*** yield*
+   - yield* iterates over its argument and yields each value returned
+   
+    makeIterator = function* makeIterator(array) {
+        yield* array;
+    };
+
+    ltrs = makeIterator(["a", "b", "c"]);
+
+    for (var ltr = ltrs.next(); ! ltr.done; ltr = ltrs.next() ) {
+        console.log(ltr.value);
+    }
+
+*** Generators: what's the point
+    - generators are iterators - you don't have to write convoluted iterator code
+    - generators are lazy lists
+
+** Binary & Octal Literals
+   var binary = 0b0001;
+   var octal  = 0o755;
+   var hex    = 0xFFC5;
+
+** Object literal extensions
+   - old
+   function f(x,y) {
+       return { x: x, y: y};
+   }
+
+   - new
+   function f(x,y) {
+       return {x, y};
+   }
+
+
+   - old
+   var o = { a: "foo", b: "bar", c: 43 };
+
+   - new
+   var a = "foo", b = "bar", c = 43;
+   var o = {a, b, c}
+
+   - old
+   function f(x,y){ 
+       return {x: x, y: y}; 
+   }
+
+   - new
+   function f(x,y){ 
+       return {x,y}; 
+   }
+   
+   - old
+   var o = {
+       method: function () {
+           return 1;
+       }
+    };
+
+   - new
+   var o = {
+       method() {
+           return 1;
+       }
+    };
+
+
+** Promises
+   - A Promise represents a proxy for a value not necessarily 
+     known when the promise is created
+   - wraps asynchronous method so it can return immediately
+   - returns an object upon which handlers can be associated
+     to handle the eventual success or failure
+
+     p = new Promise(function(resolve, reject) {...});
+
+     p.then(onFulfilled, onRejected)
+     p.catch(onRejected)
+
+
+*** Example
+
+    'use strict';
+    var promiseCount = 0;
+    const maxSeconds = 6;
+    
+    function testPromise() {
+        var thisPromiseCount = ++promiseCount;
+        var p = new Promise(
+            function(resolve, reject) {
+            let                 ound((Math.random() * (maxSeconds-1) + 1) * 1000)/1000;
+                console.log(`${thisPromiseCount} : ${seconds} secs`);
+                setTimeout(  seconds * 1000);                             
+            }
+        );
+    
+        p.then( (val) => console.log(val) )
+            .catch( function (reason) { console.log(`handle rejected promise: ${reason}`); } );
+    }
+    
+    for (let i = 0; i < 5; i++) {
+        testPromise();
+    }
+
+** Symbols
+    - a new data type
+    - unique and immutable
+    - may be used as an identifier for object properties
+    - may use a description attribute - useful for debugging
+    - similar idea to Lisp's gensym
+    - accessible via Object.getOwnPropertySymbols(obj) and Reflect.ownKeys(obj)
+     
+    var sym1 = Symbol();
+    var sym2 = Symbol(foo);
+    var sym3 = Symbol(foo);
+
+    sym2 === sym3    -> false
+
+*** What's the point
+   1. Collision-free object properties - hygenic extension
+
+      var mySym = Symbol();
+      obj[mySym] = myMethod;
+
+   2. quasi-private properties - ignored by for-in, keys, hasOwnProperties, 
+
+*** Standard symbols
+    - Symbol.iterator
+    - Symbol.hasInstance
+    - Symbol.match
+    - bunch more - not implemented yet
+
+** Template Strings
+    - String interpolation!!!
+    
+    var s = "about", 
+        a = 5,
+        b = 6;
+    console.log(`it's ${s} time: ${a+b}`);
+
+    - embedded newlines
+
+    console.log(`this is a
+        multi-line string`);
+
+
+** Arrow Functions
+    - concise lambda expressions with lexical "this"
+    - limited capabilites compared to regular functions
+
+    (first, last) => { return first + " " + last; }
+    (first, last) => first + " " + last;
+
+    person => person.name;
+
+    setInterval( () => console.log("can you hear me now?"), 1000);
+
+    (param1, param2, ...rest) => { doSomethingCool(rest); };
+
+    var returnObjLiteral = () => ({ foo: 1 });
+    
+*** Examples :: concise
+
+    var group = [
+        "Russ",
+	"John",
+	"Eric",
+	"Rhonda"
+    ];
+
+    var nameLength = group.map( s => s.length );
+
+*** Examples :: lexical this
+
+    
+
+** Protocols
+
+** Iterators and Iterables
+*** Iterable protocol
+   - allows objects to define or customize their iteration behavior
+   - must implement iterator method
+      - a thunk that returns an object conforming to the iterator protocol
+
+*** Iterator protocol
+   - allows standard way to produce a sequence
+   - implements a next() method
+     - a thunk that returns an object with two properties:
+        - value
+        - done(boolean)
+
+*** Examples
+    var s = "str";
+    typeof s[Symbol.iterator]    -> 'function'
+
+    s_it = s[Symbol.iterator]();
+
+    s_it.next();                 -> { value: 's', done: false }
+    s_it.next();                 -> { value: 't', done: false }
+    s_it.next();                 -> { value: 'r', done: false }
+    s_it.next();                 -> { value: undefined, done: true }
+  
+    - Builtin iterables: String, Array, TypedArray, Map, Set
+    - accept iterables
+       - all collections
+       - for-of loops, spread operator, yield*, destructuring assignment  
+
+*** Generators are both iterators and iterables
+
+    var gen = function*() {yield 1; yield 2; yield 3;}();
+
+    [...gen]           -> [1,2,3]
+
+    var gen = function*() {yield 1; yield 2; yield 3;}();
+
+    gen.next()         -> { value: 1, done: false }
+
+** Gather & Spread Operator
+*** Gather
+    function bar(x, y, ...z) {
+        console.log(x,y,z);
+    }
+
+    bar(1,2,3,4,5,6,7);         // 1 2 [3,4,5,6,7]
+
+    function baz(...args) {
+        do.something.to(args);  // no more stupid arguments quasi-array
+    }
+
+*** Spread
+    "..." in front of any *iterable* "spreads" it out into individual variables
+
+    similar to "apply"
+
+    function foo(x,y,z) {
+        console.log(x,y,z);
+    }
+
+    foo.apply(null, [1,2,3]);   // 1 2 3
+
+    foo( ...[1,2,3]);           // 1 2 3
+    
+    var a = [2,3,4];
+    var b = [1, ...a, 5];       // [1, 2, 3, 4, 5]
+
+    [..."abc"]                  // ['a', 'b', 'c']
+
+** Default parameters
+
+    Not yet implemented in Node.
+
+    function foo(x = 11, y = 12) {
+        console.log(x + y);
+    }
+
+
+
+
+
+
