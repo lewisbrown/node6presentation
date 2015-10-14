@@ -138,11 +138,9 @@ Class declarations are not hoisted
 	 }
      }
 
-for ... of loops
-----------------
+## for ... of loops
 
 - for ... in - loops over object properties
-
 - for ... of - loops over data in iterables
     -   works on iterables: Arrays, Maps, Sets, Generators, etc.
     -   allows break, continue, return
@@ -160,11 +158,11 @@ Collections
 
 Objects and Maps are very similar, but:
 
-1.  Maps do not have a prototype
-2.  Map keys can be of any type, not just Strings
-3.  But all keys must be of the same type, as with all values
-4.  Maps have a 'length' parameter, unlike Objects
-5.  Maps iterate in insertion order whereas Objects specify no order
+-  Maps do not have a prototype
+-  Map keys can be of any type, not just Strings
+-  But all keys must be of the same type, as with all values
+-  Maps have a 'length' parameter, unlike Objects
+-  Maps iterate in insertion order whereas Objects specify no order
 
 ## Map
 

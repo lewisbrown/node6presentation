@@ -40,7 +40,7 @@ $else$
   h1 { font-size: 180%; }
   h2 { font-size: 120%; }
   h3 { font-size: 100%; }
-  code { font-size: 12pt; display: block }
+  .sourceCode > pre { margin: 0em 2em; font-size: 12pt; display: block }
   q { quotes: "“" "”" "‘" "’"; }
   blockquote { font-style: italic }
   /* Figures are displayed full-page, with the caption on
