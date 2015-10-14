@@ -26,11 +26,11 @@ Summary
 What's new in Node 4.0.0
 ------------------------
 
-### Modest performance gains
+- Modest performance gains
 
-### Long Term Support versionsing
+- Long Term Support versionsing
 
-### Uses new version of V8
+- Uses new version of V8
 
 ## Extended ES6 support
 
@@ -43,8 +43,8 @@ What's new in Node 4.0.0
 - --harmony_destructuring
 - --harmony_object
 
-Syntax
-======
+Syntax Enhancements
+===================
 
 Binary & Octal Literals
 -----------------------
@@ -118,10 +118,8 @@ Template Strings
         multi-line string`);
 
 
-Gather & Spread Operator
-------------------------
-
-## Gather
+Gather
+------
 
     function bar(x, y, ...z) { console.log(x,y,z); }
 
@@ -131,7 +129,8 @@ Gather & Spread Operator
         do.something.to(args); // no need for arguments quasi-array 
     }
 
-## Spread
+Spread
+------
 
 - "..." in front of any **iterable** "spreads" it out into individual
 variables
@@ -184,7 +183,10 @@ Arrow Functions
 ---------------
 
 -   concise lambda expressions with lexical "this"
--   limited capabilites compared to regular functions
+-   always anonymous
+-   have no arguments object
+-   cannot use yield
+-   limited capabilites compared to regular functions, but very concise
 
 <!-- end of list -->
 
@@ -208,11 +210,11 @@ Arrow Functions
 
     var nameLengths = group.map( s => s.length );
 
-<!-- TODO  ## Examples :: lexical this 
+<!-- TODO  ## Examples :: lexical this -->
 
 
 Block-level Scope
------------------
+=================
 
 ## Let
 
@@ -226,7 +228,7 @@ Block-level Scope
 
     (function () {
         var a = 3;
-	console.log(a); // 3
+	    console.log(a); // 3
     })();
 
     console.log(a); // 2
@@ -236,13 +238,13 @@ Block-level Scope
      var a = 2;
 
      {
-         let a = 3;
-	 console.log(a); // 3
+        let a = 3;
+	    console.log(a); // 3
      }
 
      console.log(a); // 2
 
-## Another example
+## Lexical scope
 
      let i = "bob's your uncle";
 
@@ -284,7 +286,7 @@ Syntactic sugar over standard JS prototype-based inheritance
 	}
     }
 
-Class declarations are not hoisted
+Class declarations are not hoisted!
 
 ## Class expression
 
@@ -292,41 +294,133 @@ Class declarations are not hoisted
         constructor(height, width) {
 	    this.height = height;
 	    this.width = width;
-	}
+	    }
 
         set width(w) {
-	    this.width = w;
-	}
+	        this.width = w;
+	    }
 	
-	get area() {
-	    return this.height * this.width;
-	}
+	    get area() {
+	        return this.height * this.width;
+	    }
 	
-	static distance(a, b) {
-	    const dx = a.x - b.x;
-	    const dy = a.y - b.y;
-	    return Math.sqrt(dx*dx + dy*dy);
-	}
+	    static distance(a, b) {
+	        const dx = a.x - b.x;
+	        const dy = a.y - b.y;
+	        return Math.sqrt(dx*dx + dy*dy);
+	    }
     };
 
 ## Sub classing
 
     class Animal {
         constructor(name) {
-	    this.name = name;
-	}
+	        this.name = name;
+	    }
 
-	speak() {
-	    console.log(this.name + ' makes a noise.');
-	}
+	    speak() {
+	        console.log(this.name + ' makes a noise.');
+	    }
      }
 
      class Dog extends Animal {
-         speak() {
-	     super.speak();
-	     console.log(this.name + ' barks.');
-	 }
+        speak() {
+	        super.speak();
+	        console.log(this.name + ' barks.');
+	    }
      }
+
+
+Symbols
+-------
+
+-   a new data type
+-   unique and immutable
+-   primary use is as an identifier for object properties
+-   may use a description attribute - useful for debugging
+-   similar idea to Lisp's gensym
+-   accessible via Object.getOwnPropertySymbols(obj) and
+    Reflect.ownKeys(obj)
+
+<!-- end of list -->
+
+    var sym1 = Symbol();
+    var sym2 = Symbol(foo);
+    var sym3 = Symbol(foo);
+
+    sym2 = sym3 -> false
+
+## Symbols: What's the point
+
+1.  Collision-free object properties - hygenic extension
+
+<!-- end of list -->
+
+    var myMethodSym = Symbol(); 
+    obj[myMethodSym] = myMethod;
+
+2.  quasi-private properties - ignored by for-in, keys,
+    hasOwnProperties,
+
+3. use of standard symbols in implementations allows extension
+
+## Some standard symbols
+
+-   Symbol.iterator
+-   Symbol.hasInstance
+-   Symbol.match
+-   bunch more - not implemented yet
+
+
+Typed Arrays
+------------
+
+## Typed Arrays
+-   array-like objects providing a mechanism for accessing raw binary
+    data
+-   not true Arrays
+-   can be converted to true Arrays by using <kbd>Array.from</kbd>
+-   Buffers and Views
+
+## Buffers and Views
+-   ArrayBuffer
+    -   generic, fixed-length container
+    -   no access
+
+## Buffers and Views
+-   DataView
+    -   provides context: type, offset, number of elements
+    -   provides getter/setters
+    -   can open multiple views on same buffer: can you say 'C'
+    -   Types
+        -   8, 16, 32 bit int and uint
+        -   32, 64 bit floats
+
+## Buffers and Views
+
+    var buffer = new ArrayBuffer(16);
+
+    var int32View = new Int32Array(buffer);
+
+    for (var i = 0; i < int32View.length; i++) {
+        int32View[i] = i*2;
+    }
+
+## C structs
+
+     struct foo { unsigned long id;
+                  char name[16];
+     	          float amount;
+     	        };
+     
+     var buffer = new ArrayBuffer(24);
+     // read data into array
+     var idView = new Uint32Array(buffer, 0, 1);
+     var nameView = new Uint8Array(buffer, 4, 16);
+     var amountView = new Float32Array(buffer, 20, 1);
+     
+     nameView[0]; // access name field
+
 
 Collections
 -----------
@@ -421,54 +515,52 @@ No primitive keys allowed (string, number, bool, null, undefined, symbol).
 - has
 - delete
 
-Typed Arrays
-------------
 
-## Typed Arrays
--   array-like objects providing a mechanism for accessing raw binary
-    data
--   not true Arrays
--   can be converted to true Arrays by using <kbd>Array.from</kbd>
--   Buffers and Views
+Iterators and Iterables
+-----------------------
 
-## Buffers and Views
--   ArrayBuffer
-    -   generic, fixed-length container
-    -   no access
+## Iterable protocol
 
-## Buffers and Views
--   DataView
-    -   provides context: type, offset, number of elements
-    -   provides getter/setters
-    -   can open multiple views on same buffer: can you say 'C'
-    -   Types
-        -   8, 16, 32 bit int and uint
-        -   32, 64 bit floats
+-   allows objects to define or customize their iteration behavior
+-   must implement iterator method
+    -   a thunk that returns an object conforming to the iterator
+        protocol
 
-## Buffers and Views
+## Iterator protocol
 
-    var buffer = new ArrayBuffer(16);
+-   allows standard way to produce a sequence
+-   implements a next() method
+    -   a thunk that returns an object with one or two properties:
+        -   done (boolean)
+        -   value - optional
 
-    var int32View = new Int32Array(buffer);
+## Iterator examples
 
-    for (var i = 0; i < int32View.length; i++) {
-        int32View[i] = i*2;
-    }
+    var s = "str";
+    typeof s[Symbol.iterator];  -> 'function'
 
-## C structs
+    s_it = s[Symbol.iterator]();
 
-     struct foo { unsigned long id;
-                  char name[16];
-     	          float amount;
-     	        };
-     
-     var buffer = new ArrayBuffer(24);
-     // read data into array
-     var idView = new Uint32Array(buffer, 0, 1);
-     var nameView = new Uint8Array(buffer, 4, 16);
-     var amountView = new Float32Array(buffer, 20, 1);
-     
-     nameView[0]; // access name field
+    s_it.next(); -> { value: 's', done: false }
+    s_it.next(); -> { value: 't', done: false }
+    s_it.next(); -> { value: 'r', done: false }
+    s_it.next(); -> { value: undefined, done: true }
+
+    -   Builtin iterables: String, Array, TypedArray, Map, Set
+    -   the following accept iterables
+        -   all collections
+        -   for-of loops, spread operator, yield*, destructuring assignment
+
+## Generators are both iterators and iterables
+
+    var gen = function*() {yield 1; yield 2; yield 3;}();
+
+    [...gen] -> [1,2,3]
+
+    var gen = function*() {yield 1; yield 2; yield 3;}();
+
+    gen.next() -> { value: 1, done: false }
+
 
 Generators
 ----------
@@ -555,93 +647,9 @@ Promises
 
     for (let i = 0; i < 5; i++) { testPromise(); }
 
-Symbols
--------
-
--   a new data type
--   unique and immutable
--   primary use is as an identifier for object properties
--   may use a description attribute - useful for debugging
--   similar idea to Lisp's gensym
--   accessible via Object.getOwnPropertySymbols(obj) and
-    Reflect.ownKeys(obj)
-
-<!-- end of list -->
-
-    var sym1 = Symbol();
-    var sym2 = Symbol(foo);
-    var sym3 = Symbol(foo);
-
-    sym2 = sym3 -> false
-
-## Symbols: What's the point
-
-1.  Collision-free object properties - hygenic extension
-
-<!-- end of list -->
-
-    var myMethodSym = Symbol(); 
-    obj[myMethodSym] = myMethod;
-
-2.  quasi-private properties - ignored by for-in, keys,
-    hasOwnProperties,
-
-3. use of standard symbols in implementations allows extension
-
-## Some standard symbols
-
--   Symbol.iterator
--   Symbol.hasInstance
--   Symbol.match
--   bunch more - not implemented yet
 
 <!-- TODO 
 Protocols
 ---------
 -->
-
-Iterators and Iterables
------------------------
-
-## Iterable protocol
-
--   allows objects to define or customize their iteration behavior
--   must implement iterator method
-    -   a thunk that returns an object conforming to the iterator
-        protocol
-
-## Iterator protocol
-
--   allows standard way to produce a sequence
--   implements a next() method
-    -   a thunk that returns an object with one or two properties:
-        -   done (boolean)
-        -   value - optional
-
-## Iterator examples
-
-    var s = "str";
-    typeof s[Symbol.iterator];  -> 'function'
-
-    s_it = s[Symbol.iterator]();
-
-    s_it.next(); -> { value: 's', done: false }
-    s_it.next(); -> { value: 't', done: false }
-    s_it.next(); -> { value: 'r', done: false }
-    s_it.next(); -> { value: undefined, done: true }
-
-    -   Builtin iterables: String, Array, TypedArray, Map, Set
-    -   the following accept iterables
-        -   all collections
-        -   for-of loops, spread operator, yield*, destructuring assignment
-
-## Generators are both iterators and iterables
-
-    var gen = function*() {yield 1; yield 2; yield 3;}();
-
-    [...gen] -> [1,2,3]
-
-    var gen = function*() {yield 1; yield 2; yield 3;}();
-
-    gen.next() -> { value: 1, done: false }
 
