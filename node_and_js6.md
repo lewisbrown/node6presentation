@@ -96,43 +96,26 @@ Syntactic sugar over standard JS prototype-based inheritance
 
 Class declarations are not hoisted
 
-##
+## Class expression
+
     var Polygon = class {
         constructor(height, width) {
 	    this.height = height;
 	    this.width = width;
 	}
 
-	set height(h) {
-	    this.height = h;
-	}
-
-	set width(w) {
+        set width(w) {
 	    this.width = w;
 	}
-
+	
 	get area() {
-	    return this.calcArea();
-	}
-
-	calcArea() {
 	    return this.height * this.width;
 	}
-
+	
 	static distance(a, b) {
 	    const dx = a.x - b.x;
 	    const dy = a.y - b.y;
-
-	    return Math.sqrt(dx\*dx + dy\*dy);
-	}
-     };
-
-## Unamed - name is local to class' body
-
-    var Polygon = class Polygon {
-        constructor(height, width) {
-	    this.height = height;
-	    this.width = width;
+	    return Math.sqrt(dx*dx + dy*dy);
 	}
     };
 
@@ -160,16 +143,20 @@ for ... of loops
 
 - for ... in - loops over object properties
 
-for ... of - loops over data in iterables
+- for ... of - loops over data in iterables
     -   works on iterables: Arrays, Maps, Sets, Generators, etc.
     -   allows break, continue, return
 
-    for (let v of array) { console.log(v); }
+<!-- end of list -->
+
+    for (let v of array) {
+        console.log(v);
+     }
 
 Collections
 -----------
 
-### Map
+## Map
 
 Objects and Maps are very similar, but:
 
@@ -179,85 +166,136 @@ Objects and Maps are very similar, but:
 4.  Maps have a 'length' parameter, unlike Objects
 5.  Maps iterate in insertion order whereas Objects specify no order
 
-    m = new Map(); m.set("foo", 1); m.set(2, "bar");
+## Map
 
-    var kO = {}; var kA = [];
+    m = new Map();
+    m.set("foo", 1);
+    m.set(2, "bar");
 
-    m.set(kO, 2); m.set(kA, 3);
+    var kO = {};
+    var kA = [];
 
-    m.get(kO); -\> 2 m.size; -\> 4
+    m.set(kO, 2);
+    m.set(kA, 3);
+
+    m.get(kO); -> 2
+    m.size; -> 4
 
     n = new Map([['a', 1], ['b', 2], ['c', 3]]);
 
-### Methods on Map
+## Methods on Map
 
-set get keys values entries has size delete clear
+<div style="margin-left:10em;margin-right:10em;">
 
-for (var [k,v] of m) { console.log(k + ' = ' + v); }
+   ------------- ------------------ ---------
+   set           &nbsp;&nbsp;&nbsp; has
+   get                              size
+   keys                             delete
+   values                           clear
+   entries                        
+   ------------- ------------------ -------
 
-m.forEach(function(v,k) { console.log(k + ' = ' + v); }, m);
+</div>
 
-### Weak Map
+    for (var [k,v] of m) {
+        console.log(k + ' = ' + v);
+    }
+
+    m.forEach(function(v,k) {
+                  console.log(k + ' = ' + v);
+	      },
+	      m
+    );
+
+## Weak Map
 
 Like Map, but with keys that are weakly referenced.
 
-As they need a reference, keys must be objects No primitive keys allowed
-(string, number, bool, null, undefined, symbol).
+As they need a reference, keys must be objects.
 
-set get has delete
+No primitive keys allowed (string, number, bool, null, undefined, symbol).
 
-### Set
+#### Methods
 
-let s = new Set([1,3,5,1,3,5,1,3,5]); -\> Set { 1, 3, 5 }
+- set
+- get
+- has
+- delete
 
-add keys values entries has delete clear
+## Set
 
-forEach
+    let s = new Set([1,3,5,1,3,5,1,3,5]); -> Set { 1, 3, 5 }
 
-### Weak Set
+#### Methods
+- add
+- keys
+- values
+- entries
+- has
+- delete
+- clear
+- forEach
 
-Objects only
+## Weak Set
 
-add has delete
+- objects only
+
+#### Methods
+
+- add
+- has
+- delete
 
 Typed Arrays
 ------------
 
--   array-like objects and provide a mechanism for accessing raw binary
+## Typed Arrays
+-   array-like objects providing a mechanism for accessing raw binary
     data
--   not a true Array
--   can convert to true Array - Array.from
+-   not true Arrays
+-   can convert to true Array using <kbd>Array.from</kbd>
 
-### Buffers and Views
-
+## Buffers and Views
 -   ArrayBuffer
     -   generic, fixed-length container
--   no access
-    -   DataView
-        -   context: type, offset, number of elements
--   provides getter/setters
--   can open multiple views on same buffer: can you say 'C'
+    -   no access
+
+## Buffers and Views
+-   DataView
+    -   provides context: type, offset, number of elements
+    -   provides getter/setters
+    -   can open multiple views on same buffer: can you say 'C'
     -   Types
         -   8, 16, 32 bin int and uint
         -   32, 64 bit floats
 
-    var buffer = new ArrayBuffer(16); var int32View = new
-    Int32Array(buffer); for (var i = 0; i\< int32View.length; i++) {
-    int32View[i] = i\*2; }
+## Buffers and Views
 
-### C structs
+    var buffer = new ArrayBuffer(16);
+    var int32View = new Int32Array(buffer);
+    for (var i = 0; i < int32View.length; i++) {
+        int32View[i] = i*2;
+    }
 
-struct foo { unsigned long id; char name[16]; float amount; }
+## C structs
 
-var buffer = new ArrayBuffer(24); // read data into array var idView =
-new Uint32Array(buffer, 0, 1); var nameView = new Uint8Array(buffer, 4,
-16); var amountView = new Float32Array(buffer, 20, 1);
-
-nameView[0];
+     struct foo { unsigned long id;
+                  char name[16];
+     	          float amount;
+     	        };
+     
+     var buffer = new ArrayBuffer(24);
+     // read data into array
+     var idView = new Uint32Array(buffer, 0, 1);
+     var nameView = new Uint8Array(buffer, 4, 16);
+     var amountView = new Float32Array(buffer, 20, 1);
+     
+     nameView[0]; // access name field
 
 Generators
 ----------
 
+## Generators
 -   functions which can be exited and later re-entered with static
     bindings
 -   returns an iterator for the function
@@ -265,21 +303,21 @@ Generators
     yield
 -   yield returns a value for the present iteration
 
-    function\* fibonacci() { let [prev, curr] = [0, 1]; for (;;) {
+    function* fibonacci() { let [prev, curr] = [0, 1]; for (;;) {
     [prev, curr] = [curr, prev + curr]; yield curr; } }
 
-### yield\*
+## yield*
 
--   yield\* iterates over its argument and yields each value returned
+-   yield* iterates over its argument and yields each value returned
 
-    makeIterator = function\* makeIterator(array) { yield\* array; };
+    makeIterator = function* makeIterator(array) { yield* array; };
 
     ltrs = makeIterator(["a", "b", "c"]);
 
     for (var ltr = ltrs.next(); ! ltr.done; ltr = ltrs.next() ) {
     console.log(ltr.value); }
 
-### Generators: what's the point
+## Generators: what's the point
 
 -   generators are iterators - you don't have to write convoluted
     iterator code
@@ -343,14 +381,14 @@ Promises
 'use strict'; var promiseCount = 0; const maxSeconds = 6;
 
 function testPromise() { var thisPromiseCount = ++promiseCount; var p =
-new Promise( function(resolve, reject) { let ound((Math.random() \*
-(maxSeconds-1) + 1) \* 1000)/1000; console.log(\`\${thisPromiseCount} :
-\${seconds} secs\`); setTimeout( seconds \* 1000); } );
+new Promise( function(resolve, reject) { let ound((Math.random() *
+(maxSeconds-1) + 1) * 1000)/1000; console.log(`${thisPromiseCount} :
+${seconds} secs`); setTimeout( seconds * 1000); } );
 
-p.then( (val) =\> console.log(val) ) .catch( function (reason) {
-console.log(\`handle rejected promise: \${reason}\`); } ); }
+p.then( (val) => console.log(val) ) .catch( function (reason) {
+console.log(`handle rejected promise: ${reason}`); } ); }
 
-for (let i = 0; i \< 5; i++) { testPromise(); }
+for (let i = 0; i < 5; i++) { testPromise(); }
 
 Symbols
 -------
@@ -365,7 +403,7 @@ Symbols
 
 var sym1 = Symbol(); var sym2 = Symbol(foo); var sym3 = Symbol(foo);
 
-sym2 `=` sym3 -\> false
+sym2 `=` sym3 -> false
 
 ### What's the point
 
@@ -388,12 +426,12 @@ Template Strings
 
 -   String interpolation!!!
 
-var s = "about", a = 5, b = 6; console.log(\`it's \${s} time:
-\${a+b}\`);
+var s = "about", a = 5, b = 6; console.log(`it's ${s} time:
+${a+b}`);
 
 -   embedded newlines
 
-console.log(\`this is a multi-line string\`);
+console.log(`this is a multi-line string`);
 
 Arrow Functions
 ---------------
@@ -401,22 +439,22 @@ Arrow Functions
 -   concise lambda expressions with lexical "this"
 -   limited capabilites compared to regular functions
 
-(first, last) =\> { return first + " " + last; } (first, last) =\>
+(first, last) => { return first + " " + last; } (first, last) =>
 first + " " + last;
 
-person =\> person.name;
+person => person.name;
 
-setInterval( () =\> console.log("can you hear me now?"), 1000);
+setInterval( () => console.log("can you hear me now?"), 1000);
 
-(param1, param2, ...rest) =\> { doSomethingCool(rest); };
+(param1, param2, ...rest) => { doSomethingCool(rest); };
 
-var returnObjLiteral = () =\> ({ foo: 1 });
+var returnObjLiteral = () => ({ foo: 1 });
 
 ### Examples :: concise
 
     var group = [ "Russ", "John", "Eric", "Rhonda" ];
 
-    var nameLength = group.map( s =\> s.length );
+    var nameLength = group.map( s => s.length );
 
 ### Examples :: lexical this
 
@@ -444,29 +482,29 @@ Iterators and Iterables
 ### Examples
 
     var s = "str";
-    typeof s[Symbol.iterator];  -\> 'function'
+    typeof s[Symbol.iterator];  -> 'function'
 
     s_it = s[Symbol.iterator]();
 
-    s_it.next(); -\> { value: 's', done: false }
-    s_it.next(); -\> { value: 't', done: false }
-    s_it.next(); -\> { value: 'r', done: false }
-    s_it.next(); -\> { value: undefined, done: true }
+    s_it.next(); -> { value: 's', done: false }
+    s_it.next(); -> { value: 't', done: false }
+    s_it.next(); -> { value: 'r', done: false }
+    s_it.next(); -> { value: undefined, done: true }
 
     -   Builtin iterables: String, Array, TypedArray, Map, Set
     -   accept iterables
         -   all collections
-        -   for-of loops, spread operator, yield\*, destructuring assignment
+        -   for-of loops, spread operator, yield*, destructuring assignment
 
 ### Generators are both iterators and iterables
 
-    var gen = function\*() {yield 1; yield 2; yield 3;}();
+    var gen = function*() {yield 1; yield 2; yield 3;}();
 
-    [...gen] -\> [1,2,3]
+    [...gen] -> [1,2,3]
 
-    var gen = function\*() {yield 1; yield 2; yield 3;}();
+    var gen = function*() {yield 1; yield 2; yield 3;}();
 
-    gen.next() -\> { value: 1, done: false }
+    gen.next() -> { value: 1, done: false }
 
 Gather & Spread Operator
 ------------------------
