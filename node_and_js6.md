@@ -7,13 +7,6 @@ Summary
 - Node 4
 - ES6
     - Syntax additions
-        - binary & octal literals
-        - object literals
-        - template strings
-        - gather & spread
-        - default parameters
-        - for-of loops
-        - arrow functions
     - Block-level Scope - let & const
     - Classes
     - Symbols
@@ -275,7 +268,7 @@ Not implemented in Node yet
 
 Classes
 -------
-Syntactic sugar over standard JS prototype-based inheritance
+### Syntactic sugar over standard JS prototype-based inheritance
 
 ## Class declarations
 
@@ -330,6 +323,8 @@ Class declarations are not hoisted!
 	    }
      }
 
+Symbols
+=======
 
 Symbols
 -------
@@ -348,7 +343,7 @@ Symbols
     var sym2 = Symbol(foo);
     var sym3 = Symbol(foo);
 
-    sym2 = sym3 -> false
+    sym2 === sym3 -> false
 
 ## Symbols: What's the point
 
@@ -373,7 +368,7 @@ Symbols
 
 
 Typed Arrays
-------------
+============
 
 ## Typed Arrays
 -   array-like objects providing a mechanism for accessing raw binary
@@ -406,7 +401,9 @@ Typed Arrays
         int32View[i] = i*2;
     }
 
-## C structs
+## Buffers and Views
+
+### C structs
 
      struct foo { unsigned long id;
                   char name[16];
@@ -423,7 +420,7 @@ Typed Arrays
 
 
 Collections
------------
+===========
 
 ## Map
 
@@ -431,8 +428,9 @@ Objects and Maps are very similar, but:
 
 -  Maps do not have a prototype
 -  Map keys can be of any type, not just Strings
--  But all keys must be of the same type, as with all values
--  Maps have a 'length' parameter, unlike Objects
+-  Mozilla spec says keys must be of the same type, as with all values;
+   but not in Node
+-  Maps have a <kbd>size</kbd> method, unlike Objects
 -  Maps iterate in insertion order whereas Objects specify no order
 
 ## Map
@@ -448,7 +446,7 @@ Objects and Maps are very similar, but:
     m.set(kA, 3);
 
     m.get(kO); -> 2
-    m.size; -> 4
+    m.size;    -> 4
 
     n = new Map([['a', 1], ['b', 2], ['c', 3]]);
 
@@ -517,7 +515,7 @@ No primitive keys allowed (string, number, bool, null, undefined, symbol).
 
 
 Iterators and Iterables
------------------------
+=======================
 
 ## Iterable protocol
 
@@ -563,11 +561,11 @@ Iterators and Iterables
 
 
 Generators
-----------
+==========
 
 ## Generators
 -   functions which can be exited and later re-entered with static
-    bindings
+    bindings (the continuation is saved)
 -   returns an iterator for the function
 -   calling iterator's next() method re-enters the function up till
     yield
@@ -606,6 +604,9 @@ Generators
 -   generators are lazy lists
 
 Promises
+========
+
+Promises
 --------
 
 -   A Promise represents a proxy for a value not necessarily known when
@@ -629,7 +630,7 @@ Promises
 
     function testPromise() { 
         var thisPromiseCount = ++promiseCount; 
-        var p = new Promise( function(resolve, reject) { 
+        var p = new Promise( (resolve, reject) => { 
                         let seconds = 
                             Math.round((Math.random() * (maxSeconds-1) + 1) 
                                 * 1000)/1000; 
@@ -639,7 +640,7 @@ Promises
                 );
 
         p.then( (val) => console.log(val) ) 
-        .catch( function (reason) {
+        .catch( (reason) => {
             console.log(`handle rejected promise: ${reason}`); 
             } 
         ); 
@@ -647,6 +648,12 @@ Promises
 
     for (let i = 0; i < 5; i++) { testPromise(); }
 
+The End
+-------
+
+### Thanks for listening.
+
+<footer>Produced with pandoc, markdown, and dzslides</footer>
 
 <!-- TODO 
 Protocols

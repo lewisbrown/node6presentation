@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #303030; color: #cccccc; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #cccccc; background-color: #303030; }
+code > span.kw { color: #f0dfaf; }
+code > span.dt { color: #dfdfbf; }
+code > span.dv { color: #dcdccc; }
+code > span.bn { color: #dca3a3; }
+code > span.fl { color: #c0bed1; }
+code > span.ch { color: #dca3a3; }
+code > span.st { color: #cc9393; }
+code > span.co { color: #7f9f7f; }
+code > span.ot { color: #efef8f; }
+code > span.al { color: #ffcfaf; }
+code > span.fu { color: #efef8f; }
+code > span.er { color: #c3bf9f; }
+  </style>
+<style>
+  html { background-color: black; }
+  body { background-color: white; border-radius: 12px}
+  /* A section is a slide. It's size is 800x600, and this will never change */
+  section {
+      font-family: Arial, serif;
+      font-size: 20pt;
+    }
+  address, blockquote, dl, fieldset, form, h1, h2, h3, h4, h5, h6, hr, ol, p, pre, table, ul, dl { padding: 10px 20px 10px 20px; }
+  h1, h2, h3 {
+    text-align: center;
+    margin: 10pt 10pt 20pt 10pt;
+  }
+  ul, ol {
+    margin: 10px 10px 10px 50px;
+  }
+  section.titleslide h1 { margin-top: 200px; }
+  h1.title { margin-top: 150px; }
+  h1 { font-size: 180%; }
+  h2 { font-size: 120%; }
+  h3 { font-size: 100%; }
+  .sourceCode > pre { margin: 0em 2em; font-size: 12pt; display: block }
+  q { quotes: "“" "”" "‘" "’"; }
+  blockquote { font-style: italic }
+  /* Figures are displayed full-page, with the caption on
+     top of the image/video */
+  figure {
+    background-color: black;
+  }
+  figcaption {
+    margin: 70px;
+  }
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 40px;
+    text-align: right;
+    background-color: #F3F4F8;
+    border-top: 1px solid #CCC;
+  }
+
+  /* Transition effect */
+  /* Feel free to change the transition effect for original
+     animations. See here:
+     https://developer.mozilla.org/en/CSS/CSS_transitions
+     How to use CSS3 Transitions: */
+  section {
+      -moz-transition: left 400ms linear 0s;
+      -webkit-transition: left 400ms linear 0s;
+      -ms-transition: left 400ms linear 0s;
+      transition: left 400ms linear 0s;
+  }
+
+  /* Before */
+  section { left: -150%; }
+  /* Now */
+  section[aria-selected] { left: 0; }
+  /* After */
+  section[aria-selected] ~ section { left: +150%; }
+
+  /* Incremental elements */
+
+  /* By default, visible */
+  .incremental > * { opacity: 1; }
+
+  /* The current item */
+  .incremental > *[aria-selected] { color: red; opacity: 1; }
+
+  /* The items to-be-selected */
+  .incremental > *[aria-selected] ~ * { opacity: 0.2; }
+</style>
+</head>
+<body>
+<section id="whats-new-in-node-and-javascript" class="titleslide slide level1"><h1>What's New in Node and JavaScript</h1></section><section id="summary" class="slide level2">
+<h1>Summary</h1>
+<ul>
+<li>Node 4</li>
+<li>ES6
+<ul>
+<li>Syntax additions</li>
+<li>Block-level Scope - let &amp; const</li>
+<li>Classes</li>
+<li>Symbols</li>
+<li>Typed Arrays - Buffers &amp; Views</li>
+<li>Collections - Map, WeakMap, Set, WeakSet</li>
+<li>Iterators</li>
+<li>Generators</li>
+<li>Promises</li>
+</ul></li>
+</ul>
+</section><section id="whats-new-in-node-4.0.0" class="slide level2">
+<h1>What's new in Node 4.0.0</h1>
+<ul>
+<li><p>Modest performance gains</p></li>
+<li><p>Long Term Support versionsing</p></li>
+<li><p>Uses new version of V8</p></li>
+</ul>
+</section><section id="extended-es6-support" class="slide level2">
+<h1>Extended ES6 support</h1>
+<ul>
+<li>--v8-options</li>
+<li>--harmony</li>
+<li>--harmony_modules</li>
+<li>--harmony_arrayincludes</li>
+<li>--harmony_regexps</li>
+<li>--harmony_proxies</li>
+<li>--harmony_destructuring</li>
+<li>--harmony_object</li>
+</ul>
+</section>
+<section id="syntax-enhancements" class="titleslide slide level1"><h1>Syntax Enhancements</h1></section><section id="binary-octal-literals" class="slide level2">
+<h1>Binary &amp; Octal Literals</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> binary = 0b0001; 
+
+<span class="kw">var</span> octal = <span class="bn">0o755</span>; 
+
+<span class="kw">var</span> hex = <span class="bn">0xFFC5</span>;</code></pre></div>
+</section><section id="object-literal-extensions" class="slide level2">
+<h1>Object literal extensions</h1>
+<ul>
+<li>old</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">f</span>(x,y) { <span class="kw">return</span> { <span class="dt">x</span>: x, <span class="dt">y</span>: y}; }</code></pre></div>
+<ul>
+<li>new</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">f</span>(x,y) { <span class="kw">return</span> {x, y}; }</code></pre></div>
+</section><section id="object-literal-extensions-1" class="slide level2">
+<h1>Object literal extensions</h1>
+<ul>
+<li>old</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> o = { <span class="dt">a</span>: <span class="st">&quot;foo&quot;</span>, <span class="dt">b</span>: <span class="st">&quot;bar&quot;</span>, <span class="dt">c</span>: <span class="dv">43</span> };</code></pre></div>
+<ul>
+<li>new</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> a = <span class="st">&quot;foo&quot;</span>, b = <span class="st">&quot;bar&quot;</span>, c = <span class="dv">43</span>; 
+<span class="kw">var</span> o = {a, b, c}</code></pre></div>
+</section><section id="object-literal-extensions-2" class="slide level2">
+<h1>Object literal extensions</h1>
+<ul>
+<li>old</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> o = { <span class="dt">method</span>: <span class="kw">function</span> () { <span class="kw">return</span> <span class="dv">1</span>; } };</code></pre></div>
+<ul>
+<li>new</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> o = { <span class="fu">method</span>() { <span class="kw">return</span> <span class="dv">1</span>; } };</code></pre></div>
+</section><section id="template-strings" class="slide level2">
+<h1>Template Strings</h1>
+<ul>
+<li>String interpolation!!!</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> s = <span class="st">&quot;about&quot;</span>, a = <span class="dv">5</span>, b = <span class="dv">6</span>; 
+<span class="ot">console</span>.<span class="fu">log</span>(`it is ${s} time: ${a+b}`);</code></pre></div>
+<ul>
+<li>embedded newlines</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">console</span>.<span class="fu">log</span>(`this is a 
+    multi-line string`);</code></pre></div>
+</section><section id="gather" class="slide level2">
+<h1>Gather</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">bar</span>(x, y, ...<span class="fu">z</span>) { <span class="ot">console</span>.<span class="fu">log</span>(x,y,z); }
+
+<span class="fu">bar</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>); <span class="co">// 1 2 [3,4,5,6,7]</span>
+
+<span class="kw">function</span> <span class="fu">baz</span>(...<span class="fu">args</span>) { 
+    <span class="kw">do</span>.<span class="ot">something</span>.<span class="fu">to</span>(args); <span class="co">// no need for arguments quasi-array </span>
+}</code></pre></div>
+</section><section id="spread" class="slide level2">
+<h1>Spread</h1>
+<ul>
+<li>&quot;...&quot; in front of any <strong>iterable</strong> &quot;spreads&quot; it out into individual variables</li>
+<li>similar to &quot;apply&quot;</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">foo</span>(x,y,z) { <span class="ot">console</span>.<span class="fu">log</span>(x,y,z); }
+
+<span class="ot">foo</span>.<span class="fu">apply</span>(<span class="kw">null</span>, [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]); <span class="co">// 1 2 3</span>
+
+<span class="fu">foo</span>( ...[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]); <span class="co">// 1 2 3</span>
+
+
+
+<span class="kw">var</span> a = [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]; 
+<span class="kw">var</span> b = [<span class="dv">1</span>, ...<span class="fu">a</span>, <span class="dv">5</span>]; <span class="co">// [1, 2, 3, 4, 5]</span>
+
+
+
+[...<span class="st">&quot;abc&quot;</span>] <span class="co">// [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]</span></code></pre></div>
+</section><section id="default-parameters" class="slide level2">
+<h1>Default parameters</h1>
+<ul>
+<li>Not yet implemented in Node.</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">foo</span>(x = <span class="dv">11</span>, y = <span class="dv">12</span>) { <span class="ot">console</span>.<span class="fu">log</span>(x + y); }</code></pre></div>
+</section><section id="for-...-of-loops" class="slide level2">
+<h1>for ... of loops</h1>
+<ul>
+<li>for ... in - loops over object properties</li>
+<li>for ... of - loops over data in iterables
+<ul>
+<li>works on iterables: Arrays, Maps, Sets, Generators, etc.</li>
+<li>allows break, continue, return</li>
+</ul></li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">for</span> (<span class="kw">let</span> v of array) {
+    <span class="ot">console</span>.<span class="fu">log</span>(v);
+ }</code></pre></div>
+</section><section id="arrow-functions" class="slide level2">
+<h1>Arrow Functions</h1>
+<ul>
+<li>concise lambda expressions with lexical &quot;this&quot;</li>
+<li>always anonymous</li>
+<li>have no arguments object</li>
+<li>cannot use yield</li>
+<li>limited capabilites compared to regular functions, but very concise</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">(first, last) =&gt; { 
+    <span class="kw">return</span> first + <span class="st">&quot; &quot;</span> + last; 
+} 
+
+(first, last) =&gt; first + <span class="st">&quot; &quot;</span> + last;
+
+person =&gt; <span class="ot">person</span>.<span class="fu">name</span>;
+
+<span class="fu">setInterval</span>( () =&gt; <span class="ot">console</span>.<span class="fu">log</span>(<span class="st">&quot;can you hear me now?&quot;</span>), <span class="dv">1000</span>);
+
+(param1, param2, ...<span class="fu">rest</span>) =&gt; { <span class="fu">doSomethingCool</span>(rest); };
+
+<span class="kw">var</span> returnObjLiteral = () =&gt; ({ <span class="dt">foo</span>: <span class="dv">1</span> });</code></pre></div>
+</section><section id="arrows---example" class="slide level2">
+<h1>Arrows - example</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> group = [ <span class="st">&quot;Russ&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Eric&quot;</span>, <span class="st">&quot;Rhonda&quot;</span> ];
+
+<span class="kw">var</span> nameLengths = <span class="ot">group</span>.<span class="fu">map</span>( s =&gt; <span class="ot">s</span>.<span class="fu">length</span> );</code></pre></div>
+<!-- TODO  ## Examples :: lexical this -->
+</section>
+<section id="block-level-scope" class="titleslide slide level1"><h1>Block-level Scope</h1></section><section id="let" class="slide level2">
+<h1>Let</h1>
+<ul>
+<li><p><kbd>let</kbd> introduces lexical scope</p></li>
+<li><p><kbd>let</kbd> variables are not hoisted!</p></li>
+</ul>
+</section><section id="lexical-scope-before" class="slide level2">
+<h1>Lexical scope before</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> a = <span class="dv">2</span>;
+
+(<span class="kw">function</span> () {
+    <span class="kw">var</span> a = <span class="dv">3</span>;
+    <span class="ot">console</span>.<span class="fu">log</span>(a); <span class="co">// 3</span>
+})();
+
+<span class="ot">console</span>.<span class="fu">log</span>(a); <span class="co">// 2</span></code></pre></div>
+</section><section id="lexical-scope-now" class="slide level2">
+<h1>Lexical scope now</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"> <span class="kw">var</span> a = <span class="dv">2</span>;
+
+ {
+    <span class="kw">let</span> a = <span class="dv">3</span>;
+    <span class="ot">console</span>.<span class="fu">log</span>(a); <span class="co">// 3</span>
+ }
+
+ <span class="ot">console</span>.<span class="fu">log</span>(a); <span class="co">// 2</span></code></pre></div>
+</section><section id="lexical-scope" class="slide level2">
+<h1>Lexical scope</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"> <span class="kw">let</span> i = <span class="st">&quot;bob&#39;s your uncle&quot;</span>;
+
+ <span class="kw">for</span> (<span class="kw">let</span> i = <span class="dv">1</span>; i &lt;= <span class="dv">1</span>; i++) {
+     <span class="ot">console</span>.<span class="fu">log</span>(i);   <span class="co">// 1</span>
+ }
+
+ <span class="ot">console</span>.<span class="fu">log</span>(i); <span class="co">// bob&#39;s your uncle</span></code></pre></div>
+</section><section id="const" class="slide level2">
+<h1>Const</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">const</span> a = [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>];
+<span class="ot">a</span>.<span class="fu">push</span>(<span class="dv">4</span>);
+<span class="ot">console</span>.<span class="fu">log</span>(a); <span class="co">// [1,2,3,4]</span>
+
+a = <span class="dv">42</span>; <span class="co">// TypeError</span></code></pre></div>
+</section><section id="block-level-functions" class="slide level2">
+<h1>Block level functions</h1>
+<p>Not implemented in Node yet</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">{
+  <span class="fu">foo</span>(); <span class="co">// works</span>
+  <span class="kw">function</span> <span class="fu">foo</span>() {}
+}
+
+<span class="fu">foo</span>(); <span class="co">// ReferenceError</span></code></pre></div>
+</section><section id="classes" class="slide level2">
+<h1>Classes</h1>
+<h3 id="syntactic-sugar-over-standard-js-prototype-based-inheritance">Syntactic sugar over standard JS prototype-based inheritance</h3>
+</section><section id="class-declarations" class="slide level2">
+<h1>Class declarations</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">class</span> Polygon {
+    <span class="fu">constructor</span>(height, width) {
+        <span class="kw">this</span>.<span class="fu">height</span> = height;
+        <span class="kw">this</span>.<span class="fu">width</span> = width;
+}
+}</code></pre></div>
+<p>Class declarations are not hoisted!</p>
+</section><section id="class-expression" class="slide level2">
+<h1>Class expression</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> Polygon = <span class="kw">class</span> {
+    <span class="fu">constructor</span>(height, width) {
+    <span class="kw">this</span>.<span class="fu">height</span> = height;
+    <span class="kw">this</span>.<span class="fu">width</span> = width;
+    }
+
+    set <span class="fu">width</span>(w) {
+        <span class="kw">this</span>.<span class="fu">width</span> = w;
+    }
+
+    get <span class="fu">area</span>() {
+        <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">height</span> * <span class="kw">this</span>.<span class="fu">width</span>;
+    }
+
+    <span class="kw">static</span> <span class="fu">distance</span>(a, b) {
+        <span class="kw">const</span> dx = <span class="ot">a</span>.<span class="fu">x</span> - <span class="ot">b</span>.<span class="fu">x</span>;
+        <span class="kw">const</span> dy = <span class="ot">a</span>.<span class="fu">y</span> - <span class="ot">b</span>.<span class="fu">y</span>;
+        <span class="kw">return</span> <span class="ot">Math</span>.<span class="fu">sqrt</span>(dx*dx + dy*dy);
+    }
+};</code></pre></div>
+</section><section id="sub-classing" class="slide level2">
+<h1>Sub classing</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">class</span> Animal {
+    <span class="fu">constructor</span>(name) {
+        <span class="kw">this</span>.<span class="fu">name</span> = name;
+    }
+
+    <span class="fu">speak</span>() {
+        <span class="ot">console</span>.<span class="fu">log</span>(<span class="kw">this</span>.<span class="fu">name</span> + <span class="st">&#39; makes a noise.&#39;</span>);
+    }
+ }
+
+ <span class="kw">class</span> Dog <span class="kw">extends</span> Animal {
+    <span class="fu">speak</span>() {
+        <span class="kw">super</span>.<span class="fu">speak</span>();
+        <span class="ot">console</span>.<span class="fu">log</span>(<span class="kw">this</span>.<span class="fu">name</span> + <span class="st">&#39; barks.&#39;</span>);
+    }
+ }</code></pre></div>
+</section>
+<section id="symbols" class="titleslide slide level1"><h1>Symbols</h1></section><section id="symbols-1" class="slide level2">
+<h1>Symbols</h1>
+<ul>
+<li>a new data type</li>
+<li>unique and immutable</li>
+<li>primary use is as an identifier for object properties</li>
+<li>may use a description attribute - useful for debugging</li>
+<li>similar idea to Lisp's gensym</li>
+<li>accessible via Object.getOwnPropertySymbols(obj) and Reflect.ownKeys(obj)</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> sym1 = <span class="fu">Symbol</span>();
+<span class="kw">var</span> sym2 = <span class="fu">Symbol</span>(foo);
+<span class="kw">var</span> sym3 = <span class="fu">Symbol</span>(foo);
+
+sym2 === sym3 -&gt; <span class="kw">false</span></code></pre></div>
+</section><section id="symbols-whats-the-point" class="slide level2">
+<h1>Symbols: What's the point</h1>
+<ol type="1">
+<li>Collision-free object properties - hygenic extension</li>
+</ol>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> myMethodSym = <span class="fu">Symbol</span>(); 
+obj[myMethodSym] = myMethod;</code></pre></div>
+<ol start="2" type="1">
+<li><p>quasi-private properties - ignored by for-in, keys, hasOwnProperties,</p></li>
+<li><p>use of standard symbols in implementations allows extension</p></li>
+</ol>
+</section><section id="some-standard-symbols" class="slide level2">
+<h1>Some standard symbols</h1>
+<ul>
+<li>Symbol.iterator</li>
+<li>Symbol.hasInstance</li>
+<li>Symbol.match</li>
+<li>bunch more - not implemented yet</li>
+</ul>
+</section>
+<section id="typed-arrays" class="titleslide slide level1"><h1>Typed Arrays</h1></section><section id="typed-arrays-1" class="slide level2">
+<h1>Typed Arrays</h1>
+<ul>
+<li>array-like objects providing a mechanism for accessing raw binary data</li>
+<li>not true Arrays</li>
+<li>can be converted to true Arrays by using <kbd>Array.from</kbd></li>
+<li>Buffers and Views</li>
+</ul>
+</section><section id="buffers-and-views" class="slide level2">
+<h1>Buffers and Views</h1>
+<ul>
+<li>ArrayBuffer
+<ul>
+<li>generic, fixed-length container</li>
+<li>no access</li>
+</ul></li>
+</ul>
+</section><section id="buffers-and-views-1" class="slide level2">
+<h1>Buffers and Views</h1>
+<ul>
+<li>DataView
+<ul>
+<li>provides context: type, offset, number of elements</li>
+<li>provides getter/setters</li>
+<li>can open multiple views on same buffer: can you say 'C'</li>
+<li>Types
+<ul>
+<li>8, 16, 32 bit int and uint</li>
+<li>32, 64 bit floats</li>
+</ul></li>
+</ul></li>
+</ul>
+</section><section id="buffers-and-views-2" class="slide level2">
+<h1>Buffers and Views</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> buffer = <span class="kw">new</span> <span class="fu">ArrayBuffer</span>(<span class="dv">16</span>);
+
+<span class="kw">var</span> int32View = <span class="kw">new</span> <span class="fu">Int32Array</span>(buffer);
+
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="dv">0</span>; i &lt; <span class="ot">int32View</span>.<span class="fu">length</span>; i++) {
+    int32View[i] = i*<span class="dv">2</span>;
+}</code></pre></div>
+</section><section id="buffers-and-views-3" class="slide level2">
+<h1>Buffers and Views</h1>
+<h3 id="c-structs">C structs</h3>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"> struct foo { unsigned long id;
+              char name[<span class="dv">16</span>];
+              float amount;
+            };
+ 
+ <span class="kw">var</span> buffer = <span class="kw">new</span> <span class="fu">ArrayBuffer</span>(<span class="dv">24</span>);
+ <span class="co">// read data into array</span>
+ <span class="kw">var</span> idView = <span class="kw">new</span> <span class="fu">Uint32Array</span>(buffer, <span class="dv">0</span>, <span class="dv">1</span>);
+ <span class="kw">var</span> nameView = <span class="kw">new</span> <span class="fu">Uint8Array</span>(buffer, <span class="dv">4</span>, <span class="dv">16</span>);
+ <span class="kw">var</span> amountView = <span class="kw">new</span> <span class="fu">Float32Array</span>(buffer, <span class="dv">20</span>, <span class="dv">1</span>);
+ 
+ nameView[<span class="dv">0</span>]; <span class="co">// access name field</span></code></pre></div>
+</section>
+<section id="collections" class="titleslide slide level1"><h1>Collections</h1></section><section id="map" class="slide level2">
+<h1>Map</h1>
+<p>Objects and Maps are very similar, but:</p>
+<ul>
+<li>Maps do not have a prototype</li>
+<li>Map keys can be of any type, not just Strings</li>
+<li>Mozilla spec says keys must be of the same type, as with all values; but not in Node</li>
+<li>Maps have a <kbd>size</kbd> method, unlike Objects</li>
+<li>Maps iterate in insertion order whereas Objects specify no order</li>
+</ul>
+</section><section id="map-1" class="slide level2">
+<h1>Map</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">m = <span class="kw">new</span> <span class="fu">Map</span>();
+<span class="ot">m</span>.<span class="fu">set</span>(<span class="st">&quot;foo&quot;</span>, <span class="dv">1</span>);
+<span class="ot">m</span>.<span class="fu">set</span>(<span class="dv">2</span>, <span class="st">&quot;bar&quot;</span>);
+
+<span class="kw">var</span> kO = {};
+<span class="kw">var</span> kA = [];
+
+<span class="ot">m</span>.<span class="fu">set</span>(kO, <span class="dv">2</span>);
+<span class="ot">m</span>.<span class="fu">set</span>(kA, <span class="dv">3</span>);
+
+<span class="ot">m</span>.<span class="fu">get</span>(kO); -&gt; <span class="dv">2</span>
+<span class="ot">m</span>.<span class="fu">size</span>;    -&gt; <span class="dv">4</span>
+
+n = <span class="kw">new</span> <span class="fu">Map</span>([[<span class="st">&#39;a&#39;</span>, <span class="dv">1</span>], [<span class="st">&#39;b&#39;</span>, <span class="dv">2</span>], [<span class="st">&#39;c&#39;</span>, <span class="dv">3</span>]]);</code></pre></div>
+</section><section id="methods-on-map" class="slide level2">
+<h1>Methods on Map</h1>
+<div style="margin-left:10em;margin-right:10em;">
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">set</td>
+<td style="text-align: left;">   </td>
+<td style="text-align: left;">has</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">get</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">size</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">keys</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">delete</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">values</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">clear</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">entries</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">for</span> (<span class="kw">var</span> [k,v] of m) {
+    <span class="ot">console</span>.<span class="fu">log</span>(k + <span class="st">&#39; = &#39;</span> + v);
+}
+
+<span class="ot">m</span>.<span class="fu">forEach</span>(<span class="kw">function</span>(v,k) {
+              <span class="ot">console</span>.<span class="fu">log</span>(k + <span class="st">&#39; = &#39;</span> + v);
+      },
+      m
+);</code></pre></div>
+</section><section id="weak-map" class="slide level2">
+<h1>Weak Map</h1>
+<p>Like Map, but with keys that are weakly referenced.</p>
+<p>As they need a reference, keys must be objects.</p>
+<p>No primitive keys allowed (string, number, bool, null, undefined, symbol).</p>
+<h4 id="methods">Methods</h4>
+<ul>
+<li>set</li>
+<li>get</li>
+<li>has</li>
+<li>delete</li>
+</ul>
+</section><section id="set" class="slide level2">
+<h1>Set</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">let</span> s = <span class="kw">new</span> <span class="fu">Set</span>([<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>]); -&gt; Set { <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span> }</code></pre></div>
+<h4 id="methods-1">Methods</h4>
+<ul>
+<li>add</li>
+<li>keys</li>
+<li>values</li>
+<li>entries</li>
+<li>has</li>
+<li>delete</li>
+<li>clear</li>
+<li>forEach</li>
+</ul>
+</section><section id="weak-set" class="slide level2">
+<h1>Weak Set</h1>
+<ul>
+<li>objects only</li>
+</ul>
+<h4 id="methods-2">Methods</h4>
+<ul>
+<li>add</li>
+<li>has</li>
+<li>delete</li>
+</ul>
+</section>
+<section id="iterators-and-iterables" class="titleslide slide level1"><h1>Iterators and Iterables</h1></section><section id="iterable-protocol" class="slide level2">
+<h1>Iterable protocol</h1>
+<ul>
+<li>allows objects to define or customize their iteration behavior</li>
+<li>must implement iterator method
+<ul>
+<li>a thunk that returns an object conforming to the iterator protocol</li>
+</ul></li>
+</ul>
+</section><section id="iterator-protocol" class="slide level2">
+<h1>Iterator protocol</h1>
+<ul>
+<li>allows standard way to produce a sequence</li>
+<li>implements a next() method
+<ul>
+<li>a thunk that returns an object with one or two properties:
+<ul>
+<li>done (boolean)</li>
+<li>value - optional</li>
+</ul></li>
+</ul></li>
+</ul>
+</section><section id="iterator-examples" class="slide level2">
+<h1>Iterator examples</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> s = <span class="st">&quot;str&quot;</span>;
+<span class="kw">typeof</span> s[<span class="ot">Symbol</span>.<span class="fu">iterator</span>];  -&gt; <span class="st">&#39;function&#39;</span>
+
+s_it = s[<span class="ot">Symbol</span>.<span class="fu">iterator</span>]();
+
+<span class="ot">s_it</span>.<span class="fu">next</span>(); -&gt; { <span class="dt">value</span>: <span class="st">&#39;s&#39;</span>, <span class="dt">done</span>: <span class="kw">false</span> }
+<span class="ot">s_it</span>.<span class="fu">next</span>(); -&gt; { <span class="dt">value</span>: <span class="st">&#39;t&#39;</span>, <span class="dt">done</span>: <span class="kw">false</span> }
+<span class="ot">s_it</span>.<span class="fu">next</span>(); -&gt; { <span class="dt">value</span>: <span class="st">&#39;r&#39;</span>, <span class="dt">done</span>: <span class="kw">false</span> }
+<span class="ot">s_it</span>.<span class="fu">next</span>(); -&gt; { <span class="dt">value</span>: <span class="kw">undefined</span>, <span class="dt">done</span>: <span class="kw">true</span> }
+
+-   Builtin iterables: String, Array, TypedArray, Map, Set
+-   the following accept iterables
+    -   all collections
+    -   <span class="kw">for</span>-of loops, spread operator, <span class="kw">yield</span>*, destructuring assignment</code></pre></div>
+</section><section id="generators-are-both-iterators-and-iterables" class="slide level2">
+<h1>Generators are both iterators and iterables</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> gen = <span class="kw">function</span>*() {<span class="kw">yield</span> <span class="dv">1</span>; <span class="kw">yield</span> <span class="dv">2</span>; <span class="kw">yield</span> <span class="dv">3</span>;}();
+
+[...<span class="fu">gen</span>] -&gt; [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]
+
+<span class="kw">var</span> gen = <span class="kw">function</span>*() {<span class="kw">yield</span> <span class="dv">1</span>; <span class="kw">yield</span> <span class="dv">2</span>; <span class="kw">yield</span> <span class="dv">3</span>;}();
+
+<span class="ot">gen</span>.<span class="fu">next</span>() -&gt; { <span class="dt">value</span>: <span class="dv">1</span>, <span class="dt">done</span>: <span class="kw">false</span> }</code></pre></div>
+</section>
+<section id="generators" class="titleslide slide level1"><h1>Generators</h1></section><section id="generators-1" class="slide level2">
+<h1>Generators</h1>
+<ul>
+<li>functions which can be exited and later re-entered with static bindings (the continuation is saved)</li>
+<li>returns an iterator for the function</li>
+<li>calling iterator's next() method re-enters the function up till yield</li>
+<li>yield returns a value for the present iteration</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span>* <span class="fu">fibonacci</span>() { 
+    <span class="kw">let</span> [prev, curr] = [<span class="dv">0</span>, <span class="dv">1</span>]; 
+    <span class="kw">for</span> (;;) { 
+        [prev, curr] = [curr, prev + curr];
+        <span class="kw">yield</span> curr; 
+    } 
+}</code></pre></div>
+</section><section id="yield" class="slide level2">
+<h1>yield*</h1>
+<ul>
+<li>yield* iterates over its argument and yields each value returned</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">makeIterator = <span class="kw">function</span>* <span class="fu">makeIterator</span>(array) {
+    <span class="kw">yield</span>* array; 
+};
+
+ltrs = <span class="fu">makeIterator</span>([<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>]);
+
+<span class="kw">for</span> (<span class="kw">var</span> ltr = <span class="ot">ltrs</span>.<span class="fu">next</span>(); ! <span class="ot">ltr</span>.<span class="fu">done</span>; ltr = <span class="ot">ltrs</span>.<span class="fu">next</span>() ) {
+    <span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">ltr</span>.<span class="fu">value</span>); 
+}</code></pre></div>
+</section><section id="generators-whats-the-point" class="slide level2">
+<h1>Generators: what's the point</h1>
+<ul>
+<li>generators are iterators - you don't have to always write convoluted iterator code</li>
+<li>generators are lazy lists</li>
+</ul>
+</section>
+<section id="promises" class="titleslide slide level1"><h1>Promises</h1></section><section id="promises-1" class="slide level2">
+<h1>Promises</h1>
+<ul>
+<li>A Promise represents a proxy for a value not necessarily known when the promise is created</li>
+<li>wraps asynchronous method so it can return immediately</li>
+<li>returns an object upon which handlers can be associated to handle the eventual success or failure</li>
+</ul>
+<!-- end of list -->
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">p = <span class="kw">new</span> <span class="fu">Promise</span>(<span class="kw">function</span>(resolve, reject) {...});
+
+<span class="ot">p</span>.<span class="fu">then</span>(onFulfilled, onRejected) 
+<span class="ot">p</span>.<span class="fu">catch</span>(onRejected)</code></pre></div>
+</section><section id="promises-2" class="slide level2">
+<h1>Promises</h1>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&#39;use strict&#39;</span>; 
+<span class="kw">var</span> promiseCount = <span class="dv">0</span>; 
+<span class="kw">const</span> maxSeconds = <span class="dv">6</span>;
+
+<span class="kw">function</span> <span class="fu">testPromise</span>() { 
+    <span class="kw">var</span> thisPromiseCount = ++promiseCount; 
+    <span class="kw">var</span> p = <span class="kw">new</span> <span class="fu">Promise</span>( (resolve, reject) =&gt; { 
+                    <span class="kw">let</span> seconds = 
+                        <span class="ot">Math</span>.<span class="fu">round</span>((<span class="ot">Math</span>.<span class="fu">random</span>() * (maxSeconds<span class="dv">-1</span>) + <span class="dv">1</span>) 
+                            * <span class="dv">1000</span>)/<span class="dv">1000</span>; 
+                    <span class="ot">console</span>.<span class="fu">log</span>(`${thisPromiseCount} : ${seconds} secs`); 
+                    <span class="fu">setTimeout</span>( seconds * <span class="dv">1000</span>); 
+                } 
+            );
+
+    <span class="ot">p</span>.<span class="fu">then</span>( (val) =&gt; <span class="ot">console</span>.<span class="fu">log</span>(val) ) 
+    .<span class="fu">catch</span>( (reason) =&gt; {
+        <span class="ot">console</span>.<span class="fu">log</span>(`handle rejected <span class="dt">promise</span>: ${reason}`); 
+        } 
+    ); 
+}
+
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="dv">0</span>; i &lt; <span class="dv">5</span>; i++) { <span class="fu">testPromise</span>(); }</code></pre></div>
+</section><section id="the-end" class="slide level2">
+<h1>The End</h1>
+<h3 id="thanks-for-listening.">Thanks for listening.</h3>
+<footer>
+Produced with pandoc, markdown, and dzslides
+</footer>
+<!-- TODO 
+Protocols
+---------
+-->
+</section>
+<!-- {{{{ dzslides core
+#
+#
+#     __  __  __       .  __   ___  __
+#    |  \  / /__` |    | |  \ |__  /__`
+#    |__/ /_ .__/ |___ | |__/ |___ .__/ core :€
+#
+#
+# The following block of code is not supposed to be edited.
+# But if you want to change the behavior of these slides,
+# feel free to hack it!
+#
+-->
+
+<div id="progress-bar"></div>
+
+<!-- Default Style -->
+<style>
+  * { margin: 0; padding: 0; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+  details { display: none; }
+  body {
+    width: 800px; height: 600px;
+    margin-left: -400px; margin-top: -300px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+  }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  section[aria-selected] { pointer-events: auto; }
+  html { overflow: hidden; }
+  body { display: none; }
+  body.loaded { display: block; }
+  .incremental {visibility: hidden; }
+  .incremental[active] {visibility: visible; }
+  #progress-bar{
+    bottom: 0;
+    position: absolute;
+    -moz-transition: width 400ms linear 0s;
+    -webkit-transition: width 400ms linear 0s;
+    -ms-transition: width 400ms linear 0s;
+    transition: width 400ms linear 0s;
+  }
+  figure {
+    width: 100%;
+    height: 100%;
+  }
+  figure > * {
+    position: absolute;
+  }
+  figure > img, figure > video {
+    width: 100%; height: 100%;
+  }
+</style>
+
+<script>
+  var Dz = {
+    remoteWindows: [],
+    idx: -1,
+    step: 0,
+    slides: null,
+    progressBar : null,
+    params: {
+      autoplay: "1"
+    }
+  };
+
+  Dz.init = function() {
+    document.body.className = "loaded";
+    this.slides = $$("body > section");
+    this.progressBar = $("#progress-bar");
+    this.setupParams();
+    this.onhashchange();
+    this.setupTouchEvents();
+    this.onresize();
+  }
+  
+  Dz.setupParams = function() {
+    var p = window.location.search.substr(1).split('&');
+    p.forEach(function(e, i, a) {
+      var keyVal = e.split('=');
+      Dz.params[keyVal[0]] = decodeURIComponent(keyVal[1]);
+    });
+  // Specific params handling
+    if (!+this.params.autoplay)
+      $$.forEach($$("video"), function(v){ v.controls = true });
+  }
+
+  Dz.onkeydown = function(aEvent) {
+    // Don't intercept keyboard shortcuts
+    if (aEvent.altKey
+      || aEvent.ctrlKey
+      || aEvent.metaKey
+      || aEvent.shiftKey) {
+      return;
+    }
+    if ( aEvent.keyCode == 37 // left arrow
+      || aEvent.keyCode == 38 // up arrow
+      || aEvent.keyCode == 33 // page up
+    ) {
+      aEvent.preventDefault();
+      this.back();
+    }
+    if ( aEvent.keyCode == 39 // right arrow
+      || aEvent.keyCode == 40 // down arrow
+      || aEvent.keyCode == 34 // page down
+    ) {
+      aEvent.preventDefault();
+      this.forward();
+    }
+    if (aEvent.keyCode == 35) { // end
+      aEvent.preventDefault();
+      this.goEnd();
+    }
+    if (aEvent.keyCode == 36) { // home
+      aEvent.preventDefault();
+      this.goStart();
+    }
+    if (aEvent.keyCode == 32) { // space
+      aEvent.preventDefault();
+      this.toggleContent();
+    }
+    if (aEvent.keyCode == 70) { // f
+      aEvent.preventDefault();
+      this.goFullscreen();
+    }
+  }
+
+  /* Touch Events */
+
+  Dz.setupTouchEvents = function() {
+    var orgX, newX;
+    var tracking = false;
+
+    var db = document.body;
+    db.addEventListener("touchstart", start.bind(this), false);
+    db.addEventListener("touchmove", move.bind(this), false);
+
+    function start(aEvent) {
+      aEvent.preventDefault();
+      tracking = true;
+      orgX = aEvent.changedTouches[0].pageX;
+    }
+
+    function move(aEvent) {
+      if (!tracking) return;
+      newX = aEvent.changedTouches[0].pageX;
+      if (orgX - newX > 100) {
+        tracking = false;
+        this.forward();
+      } else {
+        if (orgX - newX < -100) {
+          tracking = false;
+          this.back();
+        }
+      }
+    }
+  }
+
+  /* Adapt the size of the slides to the window */
+
+  Dz.onresize = function() {
+    var db = document.body;
+    var sx = db.clientWidth / window.innerWidth;
+    var sy = db.clientHeight / window.innerHeight;
+    var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
+
+    db.style.MozTransform = transform;
+    db.style.WebkitTransform = transform;
+    db.style.OTransform = transform;
+    db.style.msTransform = transform;
+    db.style.transform = transform;
+  }
+
+
+  Dz.getDetails = function(aIdx) {
+    var s = $("section:nth-of-type(" + aIdx + ")");
+    var d = s.$("details");
+    return d ? d.innerHTML : "";
+  }
+
+  Dz.onmessage = function(aEvent) {
+    var argv = aEvent.data.split(" "), argc = argv.length;
+    argv.forEach(function(e, i, a) { a[i] = decodeURIComponent(e) });
+    var win = aEvent.source;
+    if (argv[0] === "REGISTER" && argc === 1) {
+      this.remoteWindows.push(win);
+      this.postMsg(win, "REGISTERED", document.title, this.slides.length);
+      this.postMsg(win, "CURSOR", this.idx + "." + this.step);
+      return;
+    }
+    if (argv[0] === "BACK" && argc === 1)
+      this.back();
+    if (argv[0] === "FORWARD" && argc === 1)
+      this.forward();
+    if (argv[0] === "START" && argc === 1)
+      this.goStart();
+    if (argv[0] === "END" && argc === 1)
+      this.goEnd();
+    if (argv[0] === "TOGGLE_CONTENT" && argc === 1)
+      this.toggleContent();
+    if (argv[0] === "SET_CURSOR" && argc === 2)
+      window.location.hash = "#" + argv[1];
+    if (argv[0] === "GET_CURSOR" && argc === 1)
+      this.postMsg(win, "CURSOR", this.idx + "." + this.step);
+    if (argv[0] === "GET_NOTES" && argc === 1)
+      this.postMsg(win, "NOTES", this.getDetails(this.idx));
+  }
+
+  Dz.toggleContent = function() {
+    // If a Video is present in this new slide, play it.
+    // If a Video is present in the previous slide, stop it.
+    var s = $("section[aria-selected]");
+    if (s) {
+      var video = s.$("video");
+      if (video) {
+        if (video.ended || video.paused) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      }
+    }
+  }
+
+  Dz.setCursor = function(aIdx, aStep) {
+    // If the user change the slide number in the URL bar, jump
+    // to this slide.
+    aStep = (aStep != 0 && typeof aStep !== "undefined") ? "." + aStep : ".0";
+    window.location.hash = "#" + aIdx + aStep;
+  }
+
+  Dz.onhashchange = function() {
+    var cursor = window.location.hash.split("#"),
+        newidx = 1,
+        newstep = 0;
+    if (cursor.length == 2) {
+      newidx = ~~cursor[1].split(".")[0];
+      newstep = ~~cursor[1].split(".")[1];
+      if (newstep > Dz.slides[newidx - 1].$$('.incremental > *').length) {
+        newstep = 0;
+        newidx++;
+      }
+    }
+    this.setProgress(newidx, newstep);
+    if (newidx != this.idx) {
+      this.setSlide(newidx);
+    }
+    if (newstep != this.step) {
+      this.setIncremental(newstep);
+    }
+    for (var i = 0; i < this.remoteWindows.length; i++) {
+      this.postMsg(this.remoteWindows[i], "CURSOR", this.idx + "." + this.step);
+    }
+  }
+
+  Dz.back = function() {
+    if (this.idx == 1 && this.step == 0) {
+      return;
+    }
+    if (this.step == 0) {
+      this.setCursor(this.idx - 1,
+                     this.slides[this.idx - 2].$$('.incremental > *').length);
+    } else {
+      this.setCursor(this.idx, this.step - 1);
+    }
+  }
+
+  Dz.forward = function() {
+    if (this.idx >= this.slides.length &&
+        this.step >= this.slides[this.idx - 1].$$('.incremental > *').length) {
+        return;
+    }
+    if (this.step >= this.slides[this.idx - 1].$$('.incremental > *').length) {
+      this.setCursor(this.idx + 1, 0);
+    } else {
+      this.setCursor(this.idx, this.step + 1);
+    }
+  }
+
+  Dz.goStart = function() {
+    this.setCursor(1, 0);
+  }
+
+  Dz.goEnd = function() {
+    var lastIdx = this.slides.length;
+    var lastStep = this.slides[lastIdx - 1].$$('.incremental > *').length;
+    this.setCursor(lastIdx, lastStep);
+  }
+
+  Dz.setSlide = function(aIdx) {
+    this.idx = aIdx;
+    var old = $("section[aria-selected]");
+    var next = $("section:nth-of-type("+ this.idx +")");
+    if (old) {
+      old.removeAttribute("aria-selected");
+      var video = old.$("video");
+      if (video) {
+        video.pause();
+      }
+    }
+    if (next) {
+      next.setAttribute("aria-selected", "true");
+      var video = next.$("video");
+      if (video && !!+this.params.autoplay) {
+        video.play();
+      }
+    } else {
+      // That should not happen
+      this.idx = -1;
+      // console.warn("Slide doesn't exist.");
+    }
+  }
+
+  Dz.setIncremental = function(aStep) {
+    this.step = aStep;
+    var old = this.slides[this.idx - 1].$('.incremental > *[aria-selected]');
+    if (old) {
+      old.removeAttribute('aria-selected');
+    }
+    var incrementals = $$('.incremental');
+    if (this.step <= 0) {
+      $$.forEach(incrementals, function(aNode) {
+        aNode.removeAttribute('active');
+      });
+      return;
+    }
+    var next = this.slides[this.idx - 1].$$('.incremental > *')[this.step - 1];
+    if (next) {
+      next.setAttribute('aria-selected', true);
+      next.parentNode.setAttribute('active', true);
+      var found = false;
+      $$.forEach(incrementals, function(aNode) {
+        if (aNode != next.parentNode)
+          if (found)
+            aNode.removeAttribute('active');
+          else
+            aNode.setAttribute('active', true);
+        else
+          found = true;
+      });
+    } else {
+      setCursor(this.idx, 0);
+    }
+    return next;
+  }
+
+  Dz.goFullscreen = function() {
+    var html = $('html'),
+        requestFullscreen = html.requestFullscreen || html.requestFullScreen || html.mozRequestFullScreen || html.webkitRequestFullScreen;
+    if (requestFullscreen) {
+      requestFullscreen.apply(html);
+    }
+  }
+  
+  Dz.setProgress = function(aIdx, aStep) {
+    var slide = $("section:nth-of-type("+ aIdx +")");
+    if (!slide)
+      return;
+    var steps = slide.$$('.incremental > *').length + 1,
+        slideSize = 100 / (this.slides.length - 1),
+        stepSize = slideSize / steps;
+    this.progressBar.style.width = ((aIdx - 1) * slideSize + aStep * stepSize) + '%';
+  }
+  
+  Dz.postMsg = function(aWin, aMsg) { // [arg0, [arg1...]]
+    aMsg = [aMsg];
+    for (var i = 2; i < arguments.length; i++)
+      aMsg.push(encodeURIComponent(arguments[i]));
+    aWin.postMessage(aMsg.join(" "), "*");
+  }
+  
+  function init() {
+    Dz.init();
+    window.onkeydown = Dz.onkeydown.bind(Dz);
+    window.onresize = Dz.onresize.bind(Dz);
+    window.onhashchange = Dz.onhashchange.bind(Dz);
+    window.onmessage = Dz.onmessage.bind(Dz);
+  }
+
+  window.onload = init;
+</script>
+
+
+<script> // Helpers
+  if (!Function.prototype.bind) {
+    Function.prototype.bind = function (oThis) {
+
+      // closest thing possible to the ECMAScript 5 internal IsCallable
+      // function 
+      if (typeof this !== "function")
+      throw new TypeError(
+        "Function.prototype.bind - what is trying to be fBound is not callable"
+      );
+
+      var aArgs = Array.prototype.slice.call(arguments, 1),
+          fToBind = this,
+          fNOP = function () {},
+          fBound = function () {
+            return fToBind.apply( this instanceof fNOP ? this : oThis || window,
+                   aArgs.concat(Array.prototype.slice.call(arguments)));
+          };
+
+      fNOP.prototype = this.prototype;
+      fBound.prototype = new fNOP();
+
+      return fBound;
+    };
+  }
+
+  var $ = (HTMLElement.prototype.$ = function(aQuery) {
+    return this.querySelector(aQuery);
+  }).bind(document);
+
+  var $$ = (HTMLElement.prototype.$$ = function(aQuery) {
+    return this.querySelectorAll(aQuery);
+  }).bind(document);
+
+  $$.forEach = function(nodeList, fun) {
+    Array.prototype.forEach.call(nodeList, fun);
+  }
+
+</script>
+<!-- vim: set fdm=marker: }}} -->
+</body>
+</html>
