@@ -631,11 +631,11 @@ Promises
     function testPromise() { 
         var thisPromiseCount = ++promiseCount; 
         var p = new Promise( (resolve, reject) => { 
-                        let seconds = 
-                            Math.round((Math.random() * (maxSeconds-1) + 1) 
-                                * 1000)/1000; 
-                        console.log(`${thisPromiseCount} : ${seconds} secs`); 
-                        setTimeout( seconds * 1000); 
+                    let seconds = 
+                        Math.round((Math.random() * (maxSeconds-1) + 1) 
+                            * 1000)/1000; 
+                    console.log(`${thisPromiseCount} : ${seconds} secs`); 
+                    setTimeout( seconds * 1000); 
                     } 
                 );
 
